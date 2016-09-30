@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LOGIN</title>
+  </head>
+
+  <body>
+    <p>
+      Put username below:
+      <form action ="/auth" methods="POST">
+	<input type="text" name="username">
+	<br>
+	<input type="submit" value="Submit">
+      </form>
+  </body>
+
+</html>
