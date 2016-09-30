@@ -6,6 +6,10 @@ app = Flask(__name__)
 def login():
     return render_template("button.html")
 
+@app.route("/reg", methods=['POST'])
+def register():
+    return render_template("reg.html")
+    
 @app.route("/auth", methods=['POST'])
 def authenticate():
     print "\n\n\n"
