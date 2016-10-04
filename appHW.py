@@ -9,7 +9,14 @@ def login():
 @app.route("/reg", methods=['POST'])
 def register():
     return render_template("reg.html")
-    
+
+@app.route("/confirm", methods=['POST'])
+def confirm():
+    print "THE INPUT: username/password"
+    print "\n\n\n"
+    print request.form["username"] + "/" + request.form["password"]
+    return render_template("sOrF.html", sOrF=status)
+
 @app.route("/auth", methods=['POST'])
 def authenticate():
     print "\n\n\n"
@@ -22,13 +29,12 @@ def authenticate():
     print "methods"
     print request.method
     print "argss"
-    ##print request.args['KELLY']
     status = "failure"
     if request.form['username'] == "JERRY":
         status = "success"
         
     return render_template("sOrF.html", sOrF=status)
-    
+
 
 if __name__=="__main__":
     app.debug = True
