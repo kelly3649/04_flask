@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def login():
-    return render_template("button.html")
+    return render_template("button.html", extra= "")
 
 @app.route("/reg", methods=['POST'])
 def register():
@@ -17,7 +17,7 @@ def confirm():
     print request.form["username"] + "/" + request.form["password"]
     users = open('users.csv','r')
     userL = users.read()
-    userL = userL.split()
+    userL = userL.split("\n")
     name = request.form["username"]
     pswd = request.form["password"]
     hashObj = hashlib.sha1()
@@ -37,7 +37,9 @@ def confirm():
         pCodes = open("pCodes.csv","a")
         pCodes.write("" + pswd + "\n")
         pCodes.close()
-    return render_template("sOrF.html", sOrF=status)
+        return render_template("button.html", extra="Account creation is a success!")
+    else:
+        return render_template("sOrF.html", sOrF = status)
 
 @app.route("/auth", methods=['POST'])
 def authenticate():
@@ -46,21 +48,27 @@ def authenticate():
     print request.form["username"] + "/" + request.form["password"]
     users = open('users.csv','r')
     userL = users.read()
-    userL = userL.split()
+    userL = userL.split("\n")
     pCodes = open('pCodes.csv','r')
     pCodesL = pCodes.read()
-    pCodesL = pCodesL.split()
+    pCodesL = pCodesL.split("\n")
+    print pCodesL[1]
     name = request.form["username"]
     pswd = request.form["password"]
     pos = 0
+    realPos = -1
     for x in userL:
         if x == name:
             realPos = pos
-            pos+=1
-            status = "failure"
-            hashObj = hashlib.sha1()
-            hashObj.update(pswd)
-            pswd = hashObj.hexdigest()
+        pos+=1
+    status = "failure,"
+    if realPos < 0:
+        status += " username is not registered!"
+    else:
+        status += " Wrong password!!!"
+    hashObj = hashlib.sha1()
+    hashObj.update(pswd)
+    pswd = hashObj.hexdigest()
     if pswd == pCodesL[realPos]:
         status = "success"
         
