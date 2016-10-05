@@ -1,4 +1,4 @@
-import random
+import hashlib
 from flask import Flask, render_template, request
 app = Flask(__name__)
 
@@ -15,6 +15,17 @@ def confirm():
     print "THE INPUT: username/password"
     print "\n\n\n"
     print request.form["username"] + "/" + request.form["password"]
+    name = request.form["username"]
+    pswd = request.form["password"]
+    users = open('users.csv','r')
+    users = users.read()
+    users = users.split()
+    status = "success"
+    for x in users:
+        print x + "\n"
+        if x == name:
+            status = "failure. Username is already registered!"
+            #add()
     return render_template("sOrF.html", sOrF=status)
 
 @app.route("/auth", methods=['POST'])
