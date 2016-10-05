@@ -15,33 +15,53 @@ def confirm():
     print "THE INPUT: username/password"
     print "\n\n\n"
     print request.form["username"] + "/" + request.form["password"]
+    users = open('users.csv','r')
+    userL = users.read()
+    userL = userL.split()
     name = request.form["username"]
     pswd = request.form["password"]
-    users = open('users.csv','r')
-    users = users.read()
-    users = users.split()
+    hashObj = hashlib.sha1()
+    hashObj.update(pswd)
+    pswd = hashObj.hexdigest()
     status = "success"
-    for x in users:
+    for x in userL:
         print x + "\n"
         if x == name:
             status = "failure. Username is already registered!"
             #add()
+    users.close()
+    if status == "success":
+        users = open("users.csv", "a")
+        users.write("" + name + "\n")
+        users.close()
+        pCodes = open("pCodes.csv","a")
+        pCodes.write("" + pswd + "\n")
+        pCodes.close()
     return render_template("sOrF.html", sOrF=status)
 
 @app.route("/auth", methods=['POST'])
 def authenticate():
+    print "THE INPUT: username/password"
     print "\n\n\n"
-    print ":::DIAG::: this Flask obj"
-    print app
-    print "request"
-    print request
-    print "headers"
-    print request.headers
-    print "methods"
-    print request.method
-    print "argss"
-    status = "failure"
-    if request.form['username'] == "JERRY":
+    print request.form["username"] + "/" + request.form["password"]
+    users = open('users.csv','r')
+    userL = users.read()
+    userL = userL.split()
+    pCodes = open('pCodes.csv','r')
+    pCodesL = pCodes.read()
+    pCodesL = pCodesL.split()
+    name = request.form["username"]
+    pswd = request.form["password"]
+    pos = 0
+    for x in userL:
+        if x == name:
+            realPos = pos
+            pos+=1
+            status = "failure"
+            hashObj = hashlib.sha1()
+            hashObj.update(pswd)
+            pswd = hashObj.hexdigest()
+    if pswd == pCodesL[realPos]:
         status = "success"
         
     return render_template("sOrF.html", sOrF=status)
