@@ -15,7 +15,7 @@ def confirm():
     print "THE INPUT: username/password"
     print "\n\n\n"
     print request.form["username"] + "/" + request.form["password"]
-    users = open('users.csv','r')
+    users = open('data/users.csv','r')
     userL = users.read()
     userL = userL.split("\n")
     name = request.form["username"]
@@ -31,10 +31,10 @@ def confirm():
             #add()
     users.close()
     if status == "success":
-        users = open("users.csv", "a")
+        users = open("data/users.csv", "a")
         users.write("" + name + "\n")
         users.close()
-        pCodes = open("pCodes.csv","a")
+        pCodes = open("data/pCodes.csv","a")
         pCodes.write("" + pswd + "\n")
         pCodes.close()
         return render_template("button.html", extra="Account creation is a success!")
@@ -46,10 +46,10 @@ def authenticate():
     print "THE INPUT: username/password"
     print "\n\n\n"
     print request.form["username"] + "/" + request.form["password"]
-    users = open('users.csv','r')
+    users = open('data/users.csv','r')
     userL = users.read()
     userL = userL.split("\n")
-    pCodes = open('pCodes.csv','r')
+    pCodes = open('data/pCodes.csv','r')
     pCodesL = pCodes.read()
     pCodesL = pCodesL.split("\n")
     print pCodesL[1]
