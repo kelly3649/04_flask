@@ -1,10 +1,16 @@
 import hashlib
-from flask import Flask, render_template, request
+
+from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
 
 @app.route("/")
 def login():
     return render_template("button.html", extra= "")
+
+@app.route("/jacobo")
+def js():
+    #print url_for("js")
+    return redirect("/")
 
 @app.route("/reg", methods=['POST'])
 def register():
@@ -14,12 +20,13 @@ def register():
 def confirm():
     print "THE INPUT: username/password"
     print "\n\n\n"
-    print request.form["username"] + "/" + request.form["password"]
-    users = open('data/users.csv','r')
-    userL = users.read()
-    userL = userL.split("\n")
     name = request.form["username"]
     pswd = request.form["password"]
+    print "****************"
+    print name + "/" + pswd
+    users = open('data/users.csv','r')
+    userL = users.read()
+    userL = userL.split("\n") 
     hashObj = hashlib.sha1()
     hashObj.update(pswd)
     pswd = hashObj.hexdigest()
@@ -45,7 +52,13 @@ def confirm():
 def authenticate():
     print "THE INPUT: username/password"
     print "\n\n\n"
-    print request.form["username"] + "/" + request.form["password"]
+    name = request.form["username"]
+    pswd = request.form["password"]
+    print name + "/" + pswd
+    #name = app.secret_key
+    session[name] = pswd
+    print ('Jerry' in session)
+    print "*************" + session["Jerry"]
     users = open('data/users.csv','r')
     userL = users.read()
     userL = userL.split("\n")
@@ -53,8 +66,6 @@ def authenticate():
     pCodesL = pCodes.read()
     pCodesL = pCodesL.split("\n")
     print pCodesL[1]
-    name = request.form["username"]
-    pswd = request.form["password"]
     pos = 0
     realPos = -1
     for x in userL:
