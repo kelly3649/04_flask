@@ -3,6 +3,8 @@ import hashlib
 from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
 
+app.secret_key = "Charlie's_Angels"
+
 @app.route("/")
 def login():
     return render_template("button.html", extra= "")
@@ -56,9 +58,6 @@ def authenticate():
     pswd = request.form["password"]
     print name + "/" + pswd
     #name = app.secret_key
-    session[name] = pswd
-    print ('Jerry' in session)
-    print "*************" + session["Jerry"]
     users = open('data/users.csv','r')
     userL = users.read()
     userL = userL.split("\n")
@@ -81,11 +80,15 @@ def authenticate():
     hashObj.update(pswd)
     pswd = hashObj.hexdigest()
     if pswd == pCodesL[realPos]:
+        session[name] = pswd
+        session["TorF"] = True 
         status = "success"
-        
+    print ('Jerry' in session)
+    print "*************" + session["Jerry"]
     return render_template("sOrF.html", sOrF=status)
 
 
 if __name__=="__main__":
     app.debug = True
     app.run()
+ 
