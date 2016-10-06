@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LOGIN</title>
+  </head>
+
+  <body>
+    {{ extra }}
+    <p>
+      <form action ="/auth" method="POST">
+	Put username below:
+	<input type="text" name="username">
+	<br>
+	put password below:
+	<input type="text" name="password">
+	<br>
+	<input type="submit" value="Login">
+      </form>
+      <form action ="/reg" method="POST">
+	Don't have an account yet? Register Now!
+	<input type="submit" value="Register">
+      </form>
+    <p>
+      
+  </body>
+
+</html>

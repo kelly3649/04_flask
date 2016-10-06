@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WELCOME</title>
+  </head>
+
+  <body>
+    WELCOME!!! YOU ARE CURRENTLY LOGGED IN!!!
+    <form action="/" method ="POST">
+      LOGOUT!!!
+      <input type="submit" name="Logout">
+    </form>

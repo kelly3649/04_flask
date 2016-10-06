@@ -7,12 +7,11 @@ app.secret_key = "Charlie's_Angels"
 
 @app.route("/")
 def login():
-    return render_template("button.html", extra= "")
+    return render_template("home.html", extra= "")
 
 @app.route("/jacobo")
 def js():
-    #print url_for("js")
-    return redirect("/")
+    #print url_for("js"    return redirect("/")
 
 @app.route("/reg", methods=['POST'])
 def register():
@@ -25,7 +24,7 @@ def confirm():
     name = request.form["username"]
     pswd = request.form["password"]
     print "****************"
-    print name + "/" + pswd
+    print name + "/" + pswd 
     users = open('data/users.csv','r')
     userL = users.read()
     userL = userL.split("\n") 
@@ -46,7 +45,7 @@ def confirm():
         pCodes = open("data/pCodes.csv","a")
         pCodes.write("" + pswd + "\n")
         pCodes.close()
-        return render_template("button.html", extra="Account creation is a success!")
+        return render_template("home.html", extra="Account creation is a success!")
     else:
         return render_template("sOrF.html", sOrF = status)
 
@@ -83,10 +82,17 @@ def authenticate():
         session[name] = pswd
         session["TorF"] = True 
         status = "success"
-    print ('Jerry' in session)
     print "*************" + session["Jerry"]
-    return render_template("sOrF.html", sOrF=status)
+    if session["TorF"]==True:
+        return render_template("welcome.html")
+    else:
+        return render_template("sOrF.html", sOrF=status)
 
+@app.route("/logout", methods=["POST"])
+def logout():
+    session["TorF"] = False
+    return render_template("home.html", extra="")
+    
 
 if __name__=="__main__":
     app.debug = True
