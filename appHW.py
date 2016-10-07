@@ -3,7 +3,8 @@ import hashlib
 from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
 
-app.secret_key = "Charlie's_Angels"
+app.secret_key = '\xb6\x16\xea"\xffA\x93(I\x8am)\x18>\xc2\x06\x07\x02\x9c\xb8\xbb\xbbxw\x98\xc1q\r\x04&\x97\xa7'
+
 
 @app.route("/")
 def login():
@@ -11,7 +12,7 @@ def login():
 
 @app.route("/jacobo")
 def js():
-    #print url_for("js"    return redirect("/")
+    return redirect("/")
 
 @app.route("/reg", methods=['POST'])
 def register():
