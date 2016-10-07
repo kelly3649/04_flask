@@ -80,7 +80,7 @@ def authenticate():
     hashObj.update(pswd)
     pswd = hashObj.hexdigest()
     if pswd == pCodesL[realPos]:
-        session[name] = pswd
+        session["name"] = name
         session["TorF"] = True 
         status = "success"
     print "*************" + session["Jerry"]
@@ -91,6 +91,7 @@ def authenticate():
 
 @app.route("/logout", methods=["POST"])
 def logout():
+    session.pop("name")
     session["TorF"] = False
     return render_template("home.html", extra="")
     
